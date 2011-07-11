@@ -13,22 +13,22 @@ our $VERSION = '0.01';
 
 sub prepare_app {
     my $self = shift;
-    $self->app_timeout_sec = $self->app_timeout_sec || 300;
 }
 
 sub call {
     my ($self, $env) = @_;
 
+    my $timeout = $self->app_timeout_sec || 300;
     my $res;
     eval {
         local $SIG{ALRM} = sub { die };
-        alarm($self->app_timeout_sec);
+        alarm($timeout);
         $res = $self->app->($env);
         my $timeleft = alarm(0);
     };
 
     if ($@) {
-        # todo
+        # TODO: handling user specfied 503 page
         $res = [ 503, [ 'Content-Type' => 'text/plain' ], [ '503' ] ];
     }
 
