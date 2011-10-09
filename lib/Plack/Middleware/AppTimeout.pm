@@ -32,7 +32,7 @@ sub call {
     if ($@) {
         if (!$flag) {
             # handling application error
-            $res = [ 500, [ 'Content-Type' => 'text/plain' ], [ 'Internal Server Error.' ] ];
+            $res = [ 500, [ 'Content-Type' => 'text/plain' ], [ 'Internal Server Error' ] ];
         } else {
             # handling application timeout
             $res = [ 503, [ 'Content-Type' => 'text/plain' ], [ 'Service Temporarily Unavailable' ] ];
