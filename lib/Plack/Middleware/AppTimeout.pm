@@ -9,7 +9,7 @@ use Plack::Util::Accessor qw(
     app_timeout_sec
 );
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 sub prepare_app {
     my $self = shift;
@@ -37,19 +37,6 @@ sub call {
             # handling application timeout
             $res = [ 503, [ 'Content-Type' => 'text/plain' ], [ 'Service Temporarily Unavailable' ] ];
         }
-    }
-
-    # validate response code
-    eval {
-        if ($res->[0] !~ /^\d{3}/) {
-            # invalid response code
-            $res = [ 500, [ 'Content-Type' => 'text/plain' ], [ 'Internal Server Error.' ] ];
-        }
-    };
-
-    if ($@) {
-        # no response code
-        $res = [ 500, [ 'Content-Type' => 'text/plain' ], [ 'Internal Server Error.' ] ];
     }
 
     return $res;
