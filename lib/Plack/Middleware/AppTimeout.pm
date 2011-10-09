@@ -28,15 +28,8 @@ sub call {
         alarm(0);
     };
     alarm(0);
-
-    if ($@) {
-        if (!$flag) {
-            # handling application error
-            $res = [ 500, [ 'Content-Type' => 'text/plain' ], [ 'Internal Server Error' ] ];
-        } else {
-            # handling application timeout
-            $res = [ 503, [ 'Content-Type' => 'text/plain' ], [ 'Service Temporarily Unavailable' ] ];
-        }
+    if ($@ && $flag) {
+        $res = [ 503, [ 'Content-Type' => 'text/plain' ], [ 'Service Temporarily Unavailable' ] ];
     }
 
     return $res;
